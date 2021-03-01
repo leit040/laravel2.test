@@ -20,8 +20,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
-        return view('pages/category/index',compact('categories'));
+        $categories = Category::latest()->paginate(10);
+        return view('pages.category.index', compact('categories'));
     }
 
     /**
@@ -32,7 +32,8 @@ class CategoryController extends Controller
     public function create()
     {
         $category = new Category();
-        return view('pages/category/edit',compact('category'));
+        $method='POST';
+        return view('pages.category.edit',compact('category','method'));
     }
 
     /**
@@ -50,7 +51,7 @@ class CategoryController extends Controller
 
         //dd($data);
         $category = Category::create($data);
-        return new RedirectResponse('/category/index');
+        return new RedirectResponse('/category/');
     }
 
     /**
@@ -73,7 +74,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category =  Category::find($id);
-        return view('pages/category/edit',compact('category'));
+        $method='PUT';
+        return view('pages/category/edit',compact('category','method'));
     }
 
     /**
@@ -83,13 +85,13 @@ class CategoryController extends Controller
      * @param int $id
      * @return RedirectResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Category $category)
     {
         $data = $request->validate([
-            'title'=> ['required','min:5','unique:categories,title,'.$id],
-            'slug'=> ['required','min:5','unique:categories,slug,'.$id]
+            'title'=> ['required','min:5','unique:categories,title,'.$category->id],
+            'slug'=> ['required','min:5','unique:categories,slug,'.$category->id]
         ]);
-        $category =  Category::find($id);
+        $category =  Category::find($category->id);
         $category->title=$data['title'];
         $category->slug=$data['slug'];
         $category->save();
@@ -98,7 +100,7 @@ class CategoryController extends Controller
             'message' => "Category \"{$data['title']}\" successfully saved",
 
         ];
-        return new RedirectResponse('/category/index');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -119,6 +121,6 @@ class CategoryController extends Controller
 
         ];
 
-        return new RedirectResponse('/category/index');
+        return new RedirectResponse('/category');
     }
 }

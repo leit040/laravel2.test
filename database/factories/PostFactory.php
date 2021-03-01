@@ -27,8 +27,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => $this->faker->unique()->sentence(rand(3,6)),
-           'slug' => $this->faker->unique()->slug(rand(5,10)),
-           'body'=>implode(". ", $this->faker->paragraphs(rand(10,45))),
+            'body'=>implode(". ", $this->faker->paragraphs(rand(10,45))),
             'user_id'=>\App\Models\User::factory(),
            'category_id'=>Category::factory(),
            'remember_token' => Str::random(10),

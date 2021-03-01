@@ -46,9 +46,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+
+    $data = $request->validate([
             'title'=> ['required','min:5','unique:categories,title'],
-            'slug'=> ['required','min:5','unique:categories,slug'],
             'body'=>['required','min:45'],
             'category_id'=>['required','exists:categories,id'],
             'tags_id'=>['required','exists:tags,id'],
@@ -56,6 +56,8 @@ class PostController extends Controller
 
 
         ]);
+   // dd($data);
+
         $post=Post::create($data);
         $post->tags()->attach($data['tags_id']);
         $_SESSION['message'] = [
@@ -103,7 +105,6 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title'=> ['required','min:5','unique:categories,title'],
-            'slug'=> ['required','min:5','unique:categories,slug'],
             'body'=>['required','min:45'],
             'category_id'=>['required','exists:categories,id'],
             'tags_id'=>['required','exists:tags,id'],
@@ -113,7 +114,6 @@ class PostController extends Controller
         ]);
         $post =  \App\Models\Post::find($id);
         $post->title=$data['title'];
-        $post->slug=$data['slug'];
         $post->body=$data['body'];
         $post->category_id=$data['category_id'];
         $post->user_id=$data['user_id'];
@@ -149,7 +149,7 @@ class PostController extends Controller
 
     public function posts_tag($id){
         $posts = Tag::find($id)->posts()->paginate(3);
-        return view('pages/post/inedx',compact('posts'));
+        return view('pages/post/index',compact('posts'));
     }
 
 

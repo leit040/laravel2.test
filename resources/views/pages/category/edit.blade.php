@@ -1,4 +1,4 @@
-@extends('index')
+@extends('layout')
 
 @section('title', 'Category Edit')
 
@@ -13,9 +13,11 @@
 
 
 
- <form class="form-text" action="" method="post">
+ <form class="form-text" action="/category/{{$category->id }}" method="post">
 
             @csrf
+
+     @method($method)
 
         <p>Category name <input name="title" size="40" value="{{old('title')?? $category->title}}"><br>
 

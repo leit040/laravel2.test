@@ -43,7 +43,7 @@ class UserController extends Controller
             'email'=> ['required','min:5','unique:users,email','email:rfc,dns'],
             'password'=>['required','min:8',]
         ]);
-        User::store($data);
+        User::create($data);
         return new RedirectResponse('/user/index');
     }
 

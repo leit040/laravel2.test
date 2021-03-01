@@ -1,4 +1,4 @@
-@extends('index')
+@extends('layout')
 
 @section('title', 'Categories')
 @include('message')
@@ -21,8 +21,8 @@
                 @endif
 
                 <tr><td>{{$category->id}}</td><td>{{ $category->title }}
-                    </td><td>{{$category->slug}}</td><td>{{$category->created_at}}</td><td>{{$category->updated_at}}</td><td><form action="/category/{{$category->id}}/delete" method="get">
-                            <input type="submit" value="удалить"></form></td><td><form action="/category/{{$category->id}}/update" method="get">
+                    </td><td>{{$category->slug}}</td><td>{{$category->created_at}}</td><td>{{$category->updated_at}}</td><td><form action="/category/{{$category->id}}" method="post"> @csrf @method('DELETE')
+                            <input type="submit" value="удалить"></form></td><td><form action="{{route('category.edit',$category)}}" method="get">
                             <input type="submit" value="изменить"></form></td></tr>
 
                 @if ($loop->last)
@@ -31,6 +31,8 @@
     @empty
         <p>no categories</p>
     @endforelse
+  {{--  {!! $categories->links() !!}--}}
+
     @include('paginator',['pages'=>$categories])
 
 @endsection
