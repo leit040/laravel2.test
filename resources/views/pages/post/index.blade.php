@@ -9,6 +9,9 @@
 
 
     @yield('message')
+    @if(isset($count))
+        {{$count}}
+        @endif
 @foreach($posts as $post)
 
 

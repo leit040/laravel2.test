@@ -170,9 +170,9 @@ class PostController extends Controller
     }
 
     public function search(){
-        $users=User::all();
-        $categories=Category::all();
-        $tags=Tag::all();
+        $users=User::withCount('posts')->get();
+        $categories=Category::withCount('posts')->get();
+        $tags=Tag::withCount('posts')->get();
 
         return view('pages.post.search',compact('users','categories','tags'));
 
@@ -186,8 +186,8 @@ class PostController extends Controller
             $query->whereIN('tags.id', explode("#",$tags));
 
         })->paginate(3);
+$count= "Fined ".$posts->count()." posts";
 
-
-        return view("pages/post/index", compact('posts'));
+        return view("pages/post/index", compact('posts','count'));
     }
 }
