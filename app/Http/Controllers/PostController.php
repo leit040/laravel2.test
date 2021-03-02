@@ -169,15 +169,25 @@ class PostController extends Controller
         return view('pages/post/index',compact('pages'));
     }
 
+    public function search(){
+        $users=User::all();
+        $categories=Category::all();
+        $tags=Tag::all();
+
+        return view('pages.post.search',compact('users','categories','tags'));
+
+    }
+
+
     public function searchResult(User $user,Category $category,Tag $tag)
     {
 
-        $pages = Post::where('category_id', $category->id)->where('user_id', $user->id)->whereHas('tags', function (\Illuminate\Database\Eloquent\Builder $query) use ($tag) {
+        $posts = Post::where('category_id', $category->id)->where('user_id', $user->id)->whereHas('tags', function (\Illuminate\Database\Eloquent\Builder $query) use ($tag) {
             $query->where('tags.id', $tag->id);
 
         })->paginate(3);
 
 
-        return view("pages/post/index", compact('pages'));
+        return view("pages/post/index", compact('posts'));
     }
 }

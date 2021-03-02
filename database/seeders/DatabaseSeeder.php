@@ -13,12 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = \App\Models\User::factory(30)->create();
-        $categories = \App\Models\Category::factory(30)->create();
-        $tags = \App\Models\Tag::factory(30)->create();
+        $users = \App\Models\User::factory(10)->create();
+        $categories = \App\Models\Category::factory(10)->create();
+        $tags = \App\Models\Tag::factory(10)->create();
 
 
-        \App\Models\Post::factory(100)->make(['category_id' => null, 'user_id' => null])->each(function ($post) use ($categories, $users, $tags) {
+        \App\Models\Post::factory(1000)->make(['category_id' => null, 'user_id' => null])->each(function ($post) use ($categories, $users, $tags) {
             $post->category_id = $categories->random()->id;
             $post->user_id = $users->random()->id;
             $post->save();

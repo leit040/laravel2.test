@@ -15,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
-        return view('pages/user/index',compact('users'));
+        $users = User::latest()->paginate(10);
+        return view('pages.user.index',compact('users'));
     }
 
     /**
@@ -26,8 +26,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = new User();
-        return view('pages/user/edit',compact('user'));
+$user=new User();
+        $method='POST';
+        return view('pages.user.edit',compact('user','method'));
     }
 
     /**
@@ -44,7 +45,7 @@ class UserController extends Controller
             'password'=>['required','min:8',]
         ]);
         User::create($data);
-        return new RedirectResponse('/user/index');
+        return new RedirectResponse('/user');
     }
 
     /**
@@ -67,7 +68,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user =  User::find($id);
-        return view('pages/user/edit',compact('user'));
+        $method='PUT';
+        return view('pages/user/edit',compact('user','method'));
     }
 
     /**
@@ -81,7 +83,7 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name'=> ['required','min:10'],
-            'email'=> ['required','min:5','unique:users,email','email:rfc,dns'],
+            'email'=> ['required','min:5','unique:users,email,'.$id,'email:rfc,dns'],
             'password'=>['required','min:8',]
         ]);
         $user =  User::find($id);
@@ -94,7 +96,7 @@ class UserController extends Controller
             'message' => "user \"{$data['name']}\" successfully saved",
 
         ];
-        return new RedirectResponse('/user/index');
+        return new RedirectResponse('/user');
     }
 
     /**
@@ -114,7 +116,7 @@ class UserController extends Controller
 
         ];
 
-        return new RedirectResponse('/user/index');
+        return new RedirectResponse('/user/');
 
     }
 }

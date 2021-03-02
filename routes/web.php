@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\CategoryController;
+use \App\Http\Controllers\TagController;
+use \App\Http\Controllers\UserController;
+use \Illuminate\Http\RedirectResponse;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,8 +34,9 @@ Route::get('/welcome', function () {
 
 });*/
 Route::resource('category',CategoryController::class);
-
-Route::prefix('tag')->group(function(){
+Route::resource('tag',TagController::class);
+Route::resource('user',UserController::class);
+/*Route::prefix('tag')->group(function(){
 
     Route::get('/index',[\App\Http\Controllers\TagController::class,'index']);   //вывод таблицы тегов
     Route::get('/create',[\App\Http\Controllers\TagController::class , 'create']); // создание тега
@@ -40,9 +45,9 @@ Route::prefix('tag')->group(function(){
     Route::post('/{tag}/update',[\App\Http\Controllers\TagController::class , 'update']); // сохранение отредактированного тега
     Route::get('/{tag}/delete',[\App\Http\Controllers\TagController::class , 'destroy']); //  удаление тега
 
-});
+});*/
 
-Route::prefix('user')->group(function(){
+/*Route::prefix('user')->group(function(){
 
     Route::get('/index',[\App\Http\Controllers\UserController::class,'index']);   //вывод таблицы юзеров
     Route::get('/create',[\App\Http\Controllers\UserController::class , 'create']); // создание юзера
@@ -51,16 +56,36 @@ Route::prefix('user')->group(function(){
     Route::post('/{tag}/update',[\App\Http\Controllers\UserController::class , 'update']); // сохранение отредактированного юзера
     Route::get('/{tag}/delete',[\App\Http\Controllers\UserController::class , 'destroy']); //  удаление юзера
 
-});
+});*/
 
 Route::get('/user/{user}/category/{category}/tag/{tag}',[\App\Http\Controllers\PostController::class , 'searchResult'])->name('findPosts');
+Route::post('/post/search',function (){
 
+    $data = request()->all();
+    $validator = validator()->make($data, [
+        'category_id'=>['required','exists:categories,id'],
+        'tag_id'=>['required'],
+        'user_id'=>['required','exists:users,id']
+
+
+    ]);
+    $error = $validator->errors();
+    if(count($error)>0){
+        $_SESSION['errors'] = $error->toArray();
+        $_SESSION['data'] = $data;
+        return new RedirectResponse($_SERVER['HTTP_REFERER']);
+
+    }
+    return new RedirectResponse("/user/".$data['user_id']."/category/".$data['category_id']."/tag/".$data['tag_id']);
+
+});
 Route::prefix('post')->group(function (){
-    Route::get('/index',[\App\Http\Controllers\PostController::class , 'index']);   //вывод постов
-    Route::get('/tag/{id}',[\App\Http\Controllers\PostController::class , 'posts_tag']);//ввывод постов по тегу
-    Route::get('/category/{id}',[\App\Http\Controllers\PostController::class , 'posts_category'])->where('id', '[0-9]+'); //вывод постов по категории
-    Route::get('/user/{id}',[\App\Http\Controllers\PostController::class , 'post_user']); //вывод постов по юзеру
-    Route::get('/create',[\App\Http\Controllers\PostController::class , 'create']);//создание нового поста
+    Route::get('/index',[\App\Http\Controllers\PostController::class , 'index'])->name('post.index');   //вывод постов
+    Route::get('/search',[\App\Http\Controllers\PostController::class , 'search'])->name('post.search');   //вывод постов
+    Route::get('/tag/{id}',[\App\Http\Controllers\PostController::class , 'posts_tag'])->name('post.tag');//ввывод постов по тегу
+    Route::get('/category/{id}',[\App\Http\Controllers\PostController::class , 'posts_category'])->where('id', '[0-9]+')->name('post.category'); //вывод постов по категории
+    Route::get('/user/{id}',[\App\Http\Controllers\PostController::class , 'post_user'])->name('post.user'); //вывод постов по юзеру
+    Route::get('/create',[\App\Http\Controllers\PostController::class , 'create'])->name('post.create');//создание нового поста
     Route::post('/create',[\App\Http\Controllers\PostController::class , 'store']);//сохранение поста после добавления
     Route::get('/{post}/edit',[\App\Http\Controllers\PostController::class , 'edit']);//передача поста на редактирование
     Route::post('/{post}/edit',[\App\Http\Controllers\PostController::class , 'update']);// редактирование поста

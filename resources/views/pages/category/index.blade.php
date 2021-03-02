@@ -2,36 +2,54 @@
 
 @section('title', 'Categories')
 @include('message')
-@yield('message')
+
 @section('content')
     @forelse($categories as $category)
         @if ($loop->first)
-            <table  class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Slug</th>
-                    <th scope="col">Create at</th>
-                    <th scope="col">Updated at</th>
-                    <th scope="col">Delete</th>
-                    <th scope="col">Update</th>
-                </tr>
-                </thead>
-                @endif
+            <div class="conteiner">
+                <div  class="table table-striped">
+                    <ul class="block__list">
+                        <li class="col">#</li>
+                        <li class="col">Title</li>
+                        <li class="col">Slug</li>
+                        <li class="col">Create at</li>
+                        <li class="col">Updated at</li>
+                        <li class="col col-item">Delete</li>
+                        <li class="col col-item">Update</li>
+                    </ul>
+                    @yield('message')
+                    @endif
 
-                <tr><td>{{$category->id}}</td><td>{{ $category->title }}
-                    </td><td>{{$category->slug}}</td><td>{{$category->created_at}}</td><td>{{$category->updated_at}}</td><td><form action="/category/{{$category->id}}" method="post"> @csrf @method('DELETE')
-                            <input type="submit" value="удалить"></form></td><td><form action="{{route('category.edit',$category)}}" method="get">
-                            <input type="submit" value="изменить"></form></td></tr>
+                    <ul class="block__list block__list-other">
+                        <li class="col">{{$category->id}}</li>
+                        <li class="col">{{ $category->title }}</li>
+                        <li class="col">{{$category->slug}}</li>
+                        <li class="col">{{$category->created_at}}</li>
+                        <li class="col">{{$category->updated_at}}</li>
+                        <li class="col col-item">
+                            <form action="/category/{{$category->id}}/" method="post">@csrf @method('DELETE')
+                                <input type="submit" class="button" value="удалить">
+                            </form>
+                        </li>
+                        <li class="col col-item">
+                            <form action="{{route('category.edit',$category)}}" method="get">
+                                <input type="submit" class="button" value="изменить">
+                            </form>
+                        </li>
+                    </ul>
+
+
+
 
                 @if ($loop->last)
-            </table>
+                </div>
+
+            </div>
         @endif
     @empty
         <p>no categories</p>
     @endforelse
-  {{--  {!! $categories->links() !!}--}}
+
 
     @include('paginator',['pages'=>$categories])
 

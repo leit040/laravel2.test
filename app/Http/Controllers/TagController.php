@@ -6,28 +6,34 @@ use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+
+
 class TagController extends Controller
+
+
 {
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        $tags = Tag::paginate(10);
-        return view('pages/tag/index',compact('tags'));
+        $tags = tag::latest()->paginate(10);
+        return view('pages.tag.index', compact('tags'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        $tag = new Tag();
-        return view('pages/tag/edit',compact('tag'));
+        $tag = new tag();
+        $method='POST';
+        return view('pages.tag.edit',compact('tag','method'));
     }
 
     /**
@@ -42,13 +48,15 @@ class TagController extends Controller
             'title'=> ['required','min:5','unique:tags,title,id'],
             'slug'=> ['required','min:5','unique:tags,slug,id']
         ]);
-        Tag::create($data);
-         $_SESSION['message'] = [
+
+        //dd($data);
+        $tag = tag::create($data);
+        $_SESSION['message'] = [
             'status' => 'success',
-            'message' => "Tag \"{$data['title']}\" successfully saved",
+            'message' => "tag \"{$data['title']}\" successfully saved",
 
         ];
-        return new RedirectResponse('/tag/index');
+        return new RedirectResponse('/tag/');
     }
 
     /**
@@ -66,37 +74,38 @@ class TagController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $tag =  Tag::find($id);
-        return view('pages/tag/edit',compact('tag'));
+        $tag =  tag::find($id);
+        $method='PUT';
+        return view('pages/tag/edit',compact('tag','method'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return RedirectResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, tag $tag)
     {
         $data = $request->validate([
-            'title'=> ['required','min:5','unique:tags,title,'.$id],
-            'slug'=> ['required','min:5','unique:tags,slug,'.$id]
+            'title'=> ['required','min:5','unique:tags,title,'.$tag->id],
+            'slug'=> ['required','min:5','unique:tags,slug,'.$tag->id]
         ]);
-        $tag =  Tag::find($id);
+        $tag =  tag::find($tag->id);
         $tag->title=$data['title'];
         $tag->slug=$data['slug'];
         $tag->save();
         $_SESSION['message'] = [
             'status' => 'success',
-            'message' => "Tag \"{$data['title']}\" successfully saved",
+            'message' => "tag \"{$data['title']}\" successfully saved",
 
         ];
-        return new RedirectResponse('/tag/index');
+        return redirect()->route('tag.index');
     }
 
     /**
@@ -107,16 +116,16 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        $tag =  Tag::find($id);
+
+        $tag =  tag::find($id);
         $title=$tag->title;
         $tag->delete();
         $_SESSION['message'] = [
             'status' => 'success',
-            'message' => "Tag \"{$title}\" successfully deleted",
+            'message' => "tag \"{$title}\" successfully deleted",
 
         ];
 
-        return new RedirectResponse('/tag/index');
-
+        return new RedirectResponse('/tag');
     }
 }

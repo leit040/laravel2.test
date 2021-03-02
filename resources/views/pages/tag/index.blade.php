@@ -2,35 +2,55 @@
 
 @section('title', 'tags')
 @include('message')
-@yield('message')
+
 @section('content')
     @forelse($tags as $tag)
         @if ($loop->first)
-            <table  class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Slug</th>
-                    <th scope="col">Create at</th>
-                    <th scope="col">Updated at</th>
-                    <th scope="col">Delete</th>
-                    <th scope="col">Update</th>
-                </tr>
-                </thead>
-                @endif
+            <div class="conteiner">
+                <div  class="table table-striped">
+                    <ul class="block__list">
+                        <li class="col">#</li>
+                        <li class="col">Title</li>
+                        <li class="col">Slug</li>
+                        <li class="col">Create at</li>
+                        <li class="col">Updated at</li>
+                        <li class="col col-item">Delete</li>
+                        <li class="col col-item">Update</li>
+                    </ul>
+                    @yield('message')
+                    @endif
 
-                <tr><td>{{$tag->id}}</td><td>{{ $tag->title }}
-                    </td><td>{{$tag->slug}}</td><td>{{$tag->created_at}}</td><td>{{$tag->updated_at}}</td><td><form action="/tag/{{$tag->id}}/delete" method="get">
-                            <input type="submit" value="удалить"></form></td><td><form action="/tag/{{$tag->id}}/update" method="get">
-                            <input type="submit" value="изменить"></form></td></tr>
+                    <ul class="block__list block__list-other">
+                        <li class="col">{{$tag->id}}</li>
+                        <li class="col">{{ $tag->title }}</li>
+                        <li class="col">{{$tag->slug}}</li>
+                        <li class="col">{{$tag->created_at}}</li>
+                        <li class="col">{{$tag->updated_at}}</li>
+                        <li class="col col-item">
+                            <form action="/tag/{{$tag->id}}/" method="post">@csrf @method('DELETE')
+                                <input type="submit" class="button" value="удалить">
+                            </form>
+                        </li>
+                        <li class="col col-item">
+                            <form action="{{route('tag.edit',$tag)}}" method="get">
+                                <input type="submit" class="button" value="изменить">
+                            </form>
+                        </li>
+                    </ul>
 
-                @if ($loop->last)
-            </table>
+
+
+
+                    @if ($loop->last)
+                </div>
+
+            </div>
         @endif
     @empty
         <p>no tags</p>
     @endforelse
+
+
     @include('paginator',['pages'=>$tags])
 
 @endsection

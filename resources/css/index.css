@@ -1,0 +1,154 @@
+@font-face {
+  src: url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* line 6, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 13, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.conteiner {
+  max-width: 1085px;
+  margin: 0 auto;
+  background: rgba(138, 138, 138, 0.5);
+}
+
+/* line 18, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.nav {
+  background: #757575;
+  padding: 0 5rem;
+}
+
+/* line 22, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 28, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.menu-1 {
+  display: inline-block;
+  position: relative;
+}
+
+/* line 33, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.menu-link {
+  text-decoration: none;
+  padding: 10px 65px;
+  background-color: #555555;
+  color: #ffffff;
+}
+
+/* line 40, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.menu-link:hover {
+  background-color: #15576f;
+  cursor: pointer;
+}
+
+/* line 45, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.submenu {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 85%;
+  background-color: #555555;
+  border: 1px solid #000000;
+  padding: 10px;
+  width: 86%;
+  z-index: 1;
+}
+
+/* line 57, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.submenu-item {
+  display: block;
+}
+
+/* line 61, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.submenu-link {
+  padding: 10px 0px;
+  display: block;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* line 68, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.submenu-link:hover {
+  text-decoration: underline;
+}
+
+/* line 72, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.menu > .menu-1:hover > .submenu {
+  display: block;
+}
+
+/* line 76, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main {
+  padding: 0 5rem 3rem;
+}
+
+/* line 78, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post {
+  margin: 3rem 0 0 0;
+}
+
+/* line 80, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__titel {
+  background-color: #555555;
+  color: #ffffff;
+  padding: 5px 10px;
+}
+
+/* line 85, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__time {
+  opacity: 0.5;
+}
+
+/* line 88, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__button {
+  color: #ffffff;
+  background-color: rgba(85, 85, 85, 0.6);
+  border: 1px solid #000000;
+  padding: 5px;
+}
+
+/* line 94, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__category {
+  display: flex;
+  align-items: center;
+}
+
+/* line 97, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__category__titel {
+  margin-right: 5px;
+}
+
+/* line 101, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__author {
+  display: flex;
+  align-items: center;
+}
+
+/* line 104, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__author__titel {
+  margin-right: 5px;
+}
+
+/* line 108, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__teg {
+  display: flex;
+  align-items: center;
+}
+
+/* line 111, C:/Users/Liubov/Desktop/blog/scss/index.scss */
+.main__post__teg__titel {
+  margin-right: 5px;
+}
+
+/*# sourceMappingURL=index.css.map */

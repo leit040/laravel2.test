@@ -2,7 +2,7 @@
 
 @section('title', 'tags')
 @include('message')
-@yield('message')
+
 @section('content')
     <h1>users</h1>
     @if(isset($_SESSION['message']))
@@ -13,27 +13,42 @@
     @endif
     @forelse($users as $user)
         @if ($loop->first)
-            <table  class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">email</th>
-                    <th scope="col">Create at</th>
-                    <th scope="col">Updated at</th>
-                    <th scope="col">Delete</th>
-                    <th scope="col">Update</th>
-                </tr>
-                </thead>
+            <div class="conteiner">
+                <div  class="table table-striped">
+                    <ul class="block__list">
+                        <li class="col">#</li>
+                        <li class="col">Name</li>
+                        <li class="col">email</li>
+                        <li class="col">Create at</li>
+                        <li class="col">Updated at</li>
+                        <li class="col col-item">Delete</li>
+                        <li class="col col-item">Update</li>
+                    </ul>
+                    @yield('message')
                 @endif
+                    <ul class="block__list block__list-other">
+                        <li class="col">{{$user->id}}</li>
+                        <li class="col">{{$user->name}}</li>
+                        <li class="col">{{$user->email}}</li>
+                        <li class="col">{{$user->created_at}}</li>
+                        <li class="col">{{$user->updated_at}}</li>
+                        <li class="col col-item">
+                            <form action="/user/{{$user->id}}" method="post"> @csrf @method('DELETE')
+                                <input type="submit" class="button" value="удалить">
+                            </form>
+                        </li>
+                        <li class="col col-item">
+                            <form action="{{route('user.edit',$user)}}" method="get">@csrf
+                                <input type="submit" class="button" value="изменить">
+                            </form>
+                        </li>
+                    </ul>
 
-                <tr><td>{{$user->id}}</td><td>{{ $user->name }}
-                    </td><td>{{$user->email}}</td><td>{{$user->created_at}}</td><td>{{$user->updated_at}}</td><td><form action="/user/{{$user->id}}/delete" method="get">@csrf
-                            <input type="submit" value="удалить"></form></td><td><form action="/user/{{$user->id}}/update" method="get">@csrf
-                            <input type="submit" value="изменить"></form></td></tr>
+
 
                 @if ($loop->last)
-            </table>
+                </div>
+            </div>
         @endif
     @empty
         <p>no users</p>
