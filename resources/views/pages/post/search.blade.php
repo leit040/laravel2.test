@@ -50,7 +50,7 @@
                 @endif
 
                         <label for="tag" class="replace">Option Tag</label>
-                        <select name="tag_id" id="tag" class="form-add__category  style__all" >
+                        <select name="tags_id[]" id="tag" class="form-add__category  style__all" multiple>
                             @foreach($tags as $tag)
                             <option class="form-add__category__inner" value={{ $tag->id }}>{{ $tag->title }}</option>
                             @endforeach

@@ -58,13 +58,13 @@ Route::resource('user',UserController::class);
 
 });*/
 
-Route::get('/user/{user}/category/{category}/tag/{tag}',[\App\Http\Controllers\PostController::class , 'searchResult'])->name('findPosts');
+Route::get('/user/{user}/category/{category}/tags/{tags}',[\App\Http\Controllers\PostController::class , 'searchResult'])->name('findPosts');
 Route::post('/post/search',function (){
 
     $data = request()->all();
     $validator = validator()->make($data, [
         'category_id'=>['required','exists:categories,id'],
-        'tag_id'=>['required'],
+        'tags_id'=>['required'],
         'user_id'=>['required','exists:users,id']
 
 
@@ -76,7 +76,7 @@ Route::post('/post/search',function (){
         return new RedirectResponse($_SERVER['HTTP_REFERER']);
 
     }
-    return new RedirectResponse("/user/".$data['user_id']."/category/".$data['category_id']."/tag/".$data['tag_id']);
+    return new RedirectResponse("/user/".$data['user_id']."/category/".$data['category_id']."/tags/".implode("#",$data['tags_id']));
 
 });
 Route::prefix('post')->group(function (){
