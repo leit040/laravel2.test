@@ -186,8 +186,8 @@ class PostController extends Controller
             $query->whereIN('tags.id', explode("#",$tags));
 
         })->paginate(3);
-$count= "Fined ".$posts->count()." posts";
 
-        return view("pages/post/index", compact('posts','count'));
+
+        return view("pages/post/index", compact('posts'));
     }
 }

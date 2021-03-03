@@ -1,12 +1,13 @@
 @extends('layout')
 
 @section('title', 'Users')
-
+@push('styles')
+    <link rel="stylesheet" href="{{asset('css/index.css')}}">
+    @endpush
 @section('content')
 
 
-</br></br></br>
-</br>
+
 
 <div class="conteiner">
     <h1 class="titel">Регестрация</h1>

@@ -1,7 +1,9 @@
 @extends('layout')
 
 @section('title', 'Category Edit')
-
+@push('styles')
+    <link rel="stylesheet" href="{{asset('css/index.css')}}">
+@endpush
 @section('content')
 
 

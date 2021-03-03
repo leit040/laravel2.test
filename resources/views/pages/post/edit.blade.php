@@ -1,6 +1,9 @@
 @extends('layout')
 
 @section('title', 'Post')
+@push('styles')
+    <link rel="stylesheet" href="{{asset('css/index.css')}}">
+@endpush
 
 @section('content')
 

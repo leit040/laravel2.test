@@ -14,7 +14,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+
     {
+
         $users = User::latest()->paginate(10);
         return view('pages.user.index',compact('users'));
     }
