@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -18,6 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $posts = \App\Models\Post::paginate(3);
         return view('pages/post/index',compact('posts'));
     }
@@ -52,12 +54,12 @@ class PostController extends Controller
             'body'=>['required','min:45'],
             'category_id'=>['required','exists:categories,id'],
             'tags_id'=>['required','exists:tags,id'],
-            'user_id'=>['required','exists:users,id']
+
 
 
         ]);
    // dd($data);
-
+         $data['user_id'] = Auth::id();
         $post=Post::create($data);
         $post->tags()->attach($data['tags_id']);
         $_SESSION['message'] = [
@@ -108,15 +110,17 @@ class PostController extends Controller
             'body'=>['required','min:45'],
             'category_id'=>['required','exists:categories,id'],
             'tags_id'=>['required','exists:tags,id'],
-            'user_id'=>['required','exists:users,id']
+
 
 
         ]);
+
         $post =  \App\Models\Post::find($id);
-        $post->title=$data['title'];
+        $post->update($data);
+        /*$post->title=$data['title'];
         $post->body=$data['body'];
         $post->category_id=$data['category_id'];
-        $post->user_id=$data['user_id'];
+        $post->user_id=$data['user_id'];*/
         $post->save();
         $post->tags()->sync($data['tags_id']);
         $_SESSION['message'] = [

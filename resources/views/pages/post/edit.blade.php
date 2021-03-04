@@ -46,7 +46,7 @@
                 @endforeach
 
             @endif
-            <label for="author" class="replace">Option Author</label>
+           {{-- <label for="author" class="replace">Option Author</label>
             <select name="user_id" id="author" class="form-add__author style__all">
                 @if(old('user_id'))
                     {{$select_id=old('user_id')}}
@@ -66,7 +66,7 @@
                     </div>
                 @endforeach
 
-            @endif
+            @endif--}}
 
 
 

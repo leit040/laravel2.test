@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -18,7 +19,7 @@ class UserController extends Controller
     {
 
         $users = User::latest()->paginate(10);
-        return view('pages.user.index',compact('users'));
+        return view('pages.user.index', compact('users'));
     }
 
     /**
@@ -28,32 +29,33 @@ class UserController extends Controller
      */
     public function create()
     {
-$user=new User();
-        $method='POST';
-        return view('pages.user.edit',compact('user','method'));
+        $user = new User();
+        $method = 'POST';
+        return view('pages.user.edit', compact('user', 'method'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=> ['required','min:10'],
-            'email'=> ['required','min:5','unique:users,email','email:rfc,dns'],
-            'password'=>['required','min:8',]
+            'name' => ['required', 'min:10'],
+            'email' => ['required', 'min:5', 'unique:users,email', 'email:rfc,dns'],
+            'password' => ['required', 'min:8',]
         ]);
+        $data['password'] = Hash::make($data['password']);
         User::create($data);
-        return new RedirectResponse('/user');
+        return new RedirectResponse(route('login'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -64,34 +66,34 @@ $user=new User();
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $user =  User::find($id);
-        $method='PUT';
-        return view('pages/user/edit',compact('user','method'));
+        $user = User::find($id);
+        $method = 'PUT';
+        return view('pages/user/edit', compact('user', 'method'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=> ['required','min:10'],
-            'email'=> ['required','min:5','unique:users,email,'.$id,'email:rfc,dns'],
-            'password'=>['required','min:8',]
+            'name' => ['required', 'min:10'],
+            'email' => ['required', 'min:5', 'unique:users,email,' . $id, 'email:rfc,dns'],
+            'password' => ['required', 'min:8',]
         ]);
-        $user =  User::find($id);
-        $user->name=$data['name'];
-        $user->email=$data['email'];
-        $user->password=$data['password'];
+        $user = User::find($id);
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = $data['password'];
         $user->save();
         $_SESSION['message'] = [
             'status' => 'success',
@@ -104,13 +106,13 @@ $user=new User();
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $user =  User::find($id);
-        $name=$user->name;
+        $user = User::find($id);
+        $name = $user->name;
         $user->delete();
         $_SESSION['message'] = [
             'status' => 'success',

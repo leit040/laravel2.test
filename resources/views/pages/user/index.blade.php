@@ -17,7 +17,7 @@
     @forelse($users as $user)
         @if ($loop->first)
             <div class="conteiner">
-                <div  class="table table-striped">
+                <div class="table table-striped">
                     <ul class="block__list">
                         <li class="col">#</li>
                         <li class="col">Name</li>
@@ -28,7 +28,7 @@
                         <li class="col col-item">Update</li>
                     </ul>
                     @yield('message')
-                @endif
+                    @endif
                     <ul class="block__list block__list-other">
                         <li class="col">{{$user->id}}</li>
                         <li class="col">{{$user->name}}</li>
@@ -48,8 +48,7 @@
                     </ul>
 
 
-
-                @if ($loop->last)
+                    @if ($loop->last)
                 </div>
             </div>
         @endif

@@ -38,7 +38,7 @@
                     <p>no categories</p>
                 @endforelse
             </select>
-            <input type="checkbox" name="all_categories">
+
 
 
 
