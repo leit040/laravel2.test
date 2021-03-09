@@ -10,7 +10,7 @@
     @forelse($tags as $tag)
         @if ($loop->first)
             <div class="conteiner">
-                <div  class="table table-striped">
+                <div class="table table-striped">
                     <ul class="block__list">
                         <li class="col">#</li>
                         <li class="col">Title</li>
@@ -40,8 +40,6 @@
                             </form>
                         </li>
                     </ul>
-
-
 
 
                     @if ($loop->last)

@@ -13,7 +13,6 @@
         <h1 class="titel">Регистрация</h1>
         <form action="" class="form-add" method="post">
             @csrf
-
             <label for="slug" class="replace">User email</label>
             <input type="email" class="form-add__titel style__all" id="email" placeholder="User email" name="email"
                    value="{{old('email')}}">

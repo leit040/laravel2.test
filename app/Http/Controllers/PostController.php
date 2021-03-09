@@ -20,7 +20,7 @@ class PostController extends Controller
     public function index()
     {
 
-        $posts = \App\Models\Post::paginate(3);
+        $posts = \App\Models\Post::with('category', 'tags', 'user')->paginate(3);
         return view('pages/post/index',compact('posts'));
     }
 
@@ -183,11 +183,11 @@ class PostController extends Controller
     }
 
 
-    public function searchResult(User $user,Category $category,$tags)
+    public function searchResult(User $user, Category $category, tag $tags)
     {
 
         $posts = Post::where('category_id', $category->id)->where('user_id', $user->id)->whereHas('tags', function (\Illuminate\Database\Eloquent\Builder $query) use ($tags) {
-            $query->whereIN('tags.id', explode("#",$tags));
+            $query->whereIN('tags.id', explode("#", $tags));
 
         })->paginate(3);
 

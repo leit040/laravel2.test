@@ -14,7 +14,8 @@
             @csrf
             @method($method)
             <label for="name" class="replace">tag name</label>
-            <input type="text" class="form-add__titel style__all" id="name" name="title" placeholder="tag name" value="{{old('title')?? $tag->title}}">
+            <input type="text" class="form-add__titel style__all" id="name" name="title" placeholder="tag name"
+                   value="{{old('title')?? $tag->title}}">
             @if ($errors->has('title'))
                 @foreach($errors->get('title') as $error)
 
@@ -25,7 +26,8 @@
 
             @endif
             <label for="slug" class="replace">tag slug</label>
-            <input type="text" class="form-add__titel style__all" id="slug" name="slug" placeholder="tag slug" value="{{old('slug')?? $tag->slug}}">
+            <input type="text" class="form-add__titel style__all" id="slug" name="slug" placeholder="tag slug"
+                   value="{{old('slug')?? $tag->slug}}">
             @if ($errors->has('slug'))
                 @foreach($errors->get('title') as $error)
 

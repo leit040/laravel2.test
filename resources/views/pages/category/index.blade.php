@@ -10,7 +10,7 @@
     @forelse($categories as $category)
         @if ($loop->first)
             <div class="conteiner">
-                <div  class="table table-striped">
+                <div class="table table-striped">
                     <ul class="block__list">
                         <li class="col">#</li>
                         <li class="col">Title</li>
@@ -42,9 +42,7 @@
                     </ul>
 
 
-
-
-                @if ($loop->last)
+                    @if ($loop->last)
                 </div>
 
             </div>

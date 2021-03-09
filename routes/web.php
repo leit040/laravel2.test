@@ -21,11 +21,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/auth/login', [\App\Http\Controllers\AuthController::class, 'loginHandle']);
 
 });
-Route::resource('user', UserController::class);
+
 Route::middleware('auth')->group(function () {
     Route::get('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
     Route::resource('category', CategoryController::class);
     Route::resource('tag', TagController::class);
+    Route::resource('user', UserController::class);
 
     Route::get('/user/{user}/category/{category}/tags/{tags}', [\App\Http\Controllers\PostController::class, 'searchResult'])->name('findPosts');
     Route::post('/post/search', function () {
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
         }
         return new RedirectResponse("/user/" . $data['user_id'] . "/category/" . $data['category_id'] . "/tags/" . implode("#", $data['tags_id']));
+
 
     });
     Route::prefix('post')->group(function () {
