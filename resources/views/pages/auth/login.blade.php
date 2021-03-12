@@ -37,8 +37,13 @@
             @endif
             <div class="block__button">
                 <button type="submit" class="block__button__inner">Login</button>
+
+
             </div>
         </form>
+        <div><a href="{{$gitHubLink}}">Login via GitHub</a></div>
+        <div><a href="{{$yahooLink}}">Login via Yahoo</a></div>
+
     </div>
 
 

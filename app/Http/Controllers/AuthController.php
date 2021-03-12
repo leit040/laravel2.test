@@ -15,7 +15,28 @@ class AuthController extends Controller
     public function login()
     {
 
-        return view('pages.auth.login');
+        $gitHubLink = 'https://github.com/login/oauth/authorize';
+        $parametres = [
+
+            'client_id' => env('AUTH_GITHUB_CLIENT_ID'),
+            'redirect_uri' => env('AUTH_GITHUB_REDIRECT_URI'),
+            'scope' => 'user,user:email'
+
+        ];
+        $gitHubLink .= '?' . http_build_query($parametres);
+
+        $yahooLink = 'https://api.login.yahoo.com/oauth2/request_auth';
+        $parametres = [
+
+            'client_id' => env('AUTH_YAHOO_CLIENT_ID'),
+            'redirect_uri' => env('AUTH_YAHOO_REDIRECT_URI'),
+            'response_type' => 'code'
+
+        ];
+        $yahooLink .= '?' . http_build_query($parametres);
+
+
+        return view('pages.auth.login', compact('gitHubLink', 'yahooLink'));
 
 
     }

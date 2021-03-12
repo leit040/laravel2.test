@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::get('/auth/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
     Route::post('/auth/login', [\App\Http\Controllers\AuthController::class, 'loginHandle']);
+    Route::get('/auth/github/callback', \App\Http\Controllers\OAuth\AuthGithubController::class)->name('github_callback');
+    Route::get('/auth/yahoo/callback', \App\Http\Controllers\OAuth\AuthYahooController::class)->name('yahoo_callback');
 
 });
 
@@ -68,15 +70,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
-Route::get('/welcome', function () {
-    return view('welcome');
-});
 
 
-Route::get('/index', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');   //вывод постов
 
 Route::fallback(function () {
     return view('index');
