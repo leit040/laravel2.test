@@ -21,6 +21,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/auth/login', [\App\Http\Controllers\AuthController::class, 'loginHandle']);
     Route::get('/auth/github/callback', \App\Http\Controllers\OAuth\AuthGithubController::class)->name('github_callback');
     Route::get('/auth/yahoo/callback', \App\Http\Controllers\OAuth\AuthYahooController::class)->name('yahoo_callback');
+    Route::get('/auth/flickr/callback', \App\Http\Controllers\OAuth\AuthFlickrController::class)->name('flickr_callback');
 
 });
 

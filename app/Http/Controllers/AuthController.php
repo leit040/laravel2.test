@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -32,11 +33,34 @@ class AuthController extends Controller
             'redirect_uri' => env('AUTH_YAHOO_REDIRECT_URI'),
             'response_type' => 'code'
 
+
         ];
         $yahooLink .= '?' . http_build_query($parametres);
 
+        $oauth_nonce = time();
+        $oauth_timestamp = time();
 
-        return view('pages.auth.login', compact('gitHubLink', 'yahooLink'));
+        $base_string = "GET&https://www.flickr.com/services/oauth/request_token
+?oauth_nonce=" . $oauth_nonce . "
+&oauth_timestamp=" . $oauth_timestamp . "
+&oauth_consumer_key=" . env('AUTH_FLICKR_CLIENT_ID') . "
+&oauth_signature_method=HMAC-SHA1
+&oauth_version=1.0
+&oauth_callback=" . env('AUTH_FLICKR_REDIRECT_URI');
+
+        $oauth_signature = hash_hmac("SHA1", rawurlencode($base_string), env('AUTH_FLICKR_CLIENT_SECRET') . '&', false);
+
+        $flickrLink = "https://www.flickr.com/services/oauth/request_token
+?oauth_nonce=$oauth_nonce
+&oauth_timestamp=$oauth_timestamp
+&oauth_consumer_key=" . env('AUTH_FLICKR_CLIENT_ID') . "
+&oauth_signature_method=HMAC-SHA1
+&oauth_version=1.0
+&oauth_signature=$oauth_signature
+&oauth_callback=" . env('AUTH_FLICKR_REDIRECT_URI');
+
+
+        return view('pages.auth.login', compact('gitHubLink', 'yahooLink', 'flickrLink'));
 
 
     }
