@@ -38,7 +38,7 @@ class AuthController extends Controller
         $yahooLink .= '?' . http_build_query($parametres);
 
 
-        $nonce = md5(uniqid(rand(), true));
+        /*$nonce = md5(uniqid(rand(), true));
         $timestamp = time();
 
         $params = [
@@ -62,8 +62,8 @@ class AuthController extends Controller
 
         $data['nonce'] = $nonce;
         $data['timestamp'] = $timestamp;
-        $_SESSION['data'] = $data;
-        return view('pages.auth.login', compact('gitHubLink', 'yahooLink', 'flickrLink'));
+        $_SESSION['data'] = $data;*/
+        return view('pages.auth.login', compact('gitHubLink', 'yahooLink'));
 
 
     }
