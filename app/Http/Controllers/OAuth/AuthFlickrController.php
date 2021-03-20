@@ -5,7 +5,9 @@ namespace App\Http\Controllers\OAuth;
 
 
 use App\Models\User;
+use Facade\FlareClient\Http\Response;
 use Faker\Factory;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -15,28 +17,28 @@ class AuthFlickrController
 {
     public function __invoke()
     {
+        //  dd($_SESSION['data']['oauth_token_secret']);
+        $data = request();
+        //dd($data->all());
+        $params = [
+            'oauth_nonce' => $_SESSION['data']['nonce'],
+            'oauth_timestamp' => $_SESSION['data']['timestamp'],
+            'oauth_verifier' => $data['oauth_verifier'],
+            'oauth_consumer_key' => env('AUTH_FLICKR_CLIENT_ID'),
+            'oauth_signature_method' => 'HMAC-SHA1',
+            'oauth_version' => '1.0',
+            'oauth_token' => $data['oauth_token'],
 
-
-        $link = 'https://www.flickr.com/services/oauth/request_token';
-
-        $parametres = [
-
-            'client_id' => env('AUTH_FLICKR_CLIENT_ID'),
-            'client_secret' => env('AUTH_FLICKR_CLIENT_SECRET'),
-            'code' => request()->get('code'),
-            'redirect_uri' => env('AUTH_FLICKR_REDIRECT_URI'),
         ];
 
-        $link .= '?' . http_build_query($parametres);
-        $response = Http::post($link);
-        $data = [];
+        ksort($params);
+
+        $baseStr = 'GET' . '&' . urlencode('https://www.flickr.com/services/oauth/access_token') . '&' . urlencode(http_build_query($params));
+        $params['oauth_signature'] = base64_encode(hash_hmac('sha1', $baseStr, env('AUTH_FLICKR_CLIENT_SECRET') . "&" . $_SESSION['data']['oauth_token_secret'], true));
+        $response = Http::get('https://www.flickr.com/services/oauth/access_token?' . urldecode(http_build_query($params)));
+
         parse_str($response->body(), $data);
-        $response = Http::withHeaders(['Authorization' => 'token ' . $data['access_token']])->get('https://api.github.com/user');
-
-        $userInfo = $response->json();
-
-        $response = Http::withHeaders(['Authorization' => 'token ' . $data['access_token']])->get('https://api.github.com/user/emails');
-        $userEmails = $response->json();
+        dd($data);
 
         if (($user = User::where('email', $userEmails[0]['email'])->first()) === NULL) {
 

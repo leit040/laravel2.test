@@ -43,7 +43,7 @@
         </form>
         <div><a href="{{$gitHubLink}}">Login via GitHub</a></div>
         <div><a href="{{$yahooLink}}">Login via Yahoo</a></div>
-        <div><a href="{{$flickrLink}}">Login via Flickr</a></div>
+       {{-- <div><a href="{{$flickrLink}}">Login via Flickr</a></div>--}}
 
     </div>
 

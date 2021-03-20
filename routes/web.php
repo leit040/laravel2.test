@@ -5,6 +5,8 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\GeoIpController;
+use MaxMind\Db\Reader;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/auth/flickr/callback', \App\Http\Controllers\OAuth\AuthFlickrController::class)->name('flickr_callback');
 
 });
+Route::get('/geo', [\App\Http\Controllers\GeoIp\GeoIpRouterController::class, 'route']);
 
 Route::middleware('auth')->group(function () {
     Route::get('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');

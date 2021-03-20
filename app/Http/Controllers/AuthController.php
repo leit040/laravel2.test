@@ -37,29 +37,32 @@ class AuthController extends Controller
         ];
         $yahooLink .= '?' . http_build_query($parametres);
 
-        $oauth_nonce = time();
-        $oauth_timestamp = time();
 
-        $base_string = "GET&https://www.flickr.com/services/oauth/request_token
-?oauth_nonce=" . $oauth_nonce . "
-&oauth_timestamp=" . $oauth_timestamp . "
-&oauth_consumer_key=" . env('AUTH_FLICKR_CLIENT_ID') . "
-&oauth_signature_method=HMAC-SHA1
-&oauth_version=1.0
-&oauth_callback=" . env('AUTH_FLICKR_REDIRECT_URI');
+        $nonce = md5(uniqid(rand(), true));
+        $timestamp = time();
 
-        $oauth_signature = hash_hmac("SHA1", rawurlencode($base_string), env('AUTH_FLICKR_CLIENT_SECRET') . '&', false);
+        $params = [
+            'oauth_nonce' => $nonce,
+            'oauth_timestamp' => $timestamp,
+            'oauth_consumer_key' => env('AUTH_FLICKR_CLIENT_ID'),
+            'oauth_signature_method' => 'HMAC-SHA1',
+            'oauth_version' => '1.0',
+            'oauth_callback' => env('AUTH_FLICKR_REDIRECT_URI'),
+        ];
 
-        $flickrLink = "https://www.flickr.com/services/oauth/request_token
-?oauth_nonce=$oauth_nonce
-&oauth_timestamp=$oauth_timestamp
-&oauth_consumer_key=" . env('AUTH_FLICKR_CLIENT_ID') . "
-&oauth_signature_method=HMAC-SHA1
-&oauth_version=1.0
-&oauth_signature=$oauth_signature
-&oauth_callback=" . env('AUTH_FLICKR_REDIRECT_URI');
+        ksort($params);
 
+        $baseStr = 'GET' . '&' . urlencode('https://www.flickr.com/services/oauth/request_token') . '&' . urlencode(http_build_query($params));
+        $params['oauth_signature'] = base64_encode(hash_hmac('sha1', $baseStr, env('AUTH_FLICKR_CLIENT_SECRET') . '&', true));
 
+        $response = Http::get('https://www.flickr.com/services/oauth/request_token?' . urldecode(http_build_query($params)));
+        $data = [];
+        parse_str($response->body(), $data);
+        $flickrLink = 'https://www.flickr.com/services/oauth/authorize?oauth_token=' . $data['oauth_token'];
+
+        $data['nonce'] = $nonce;
+        $data['timestamp'] = $timestamp;
+        $_SESSION['data'] = $data;
         return view('pages.auth.login', compact('gitHubLink', 'yahooLink', 'flickrLink'));
 
 
