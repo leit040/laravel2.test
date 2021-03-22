@@ -12,7 +12,7 @@ class IpApiGeoService implements GeoIpInterface
 {
 
 
-    protected $data;
+    public $data;
 
 
     public function parse($ip)
@@ -20,6 +20,12 @@ class IpApiGeoService implements GeoIpInterface
 
         $response = Http::get('http://ip-api.com/json/' . $ip . '?fields=status,continentCode,countryCode');
         $this->data = $response->json();
+        if ($this->data['status'] == 'fail') {
+            $this->data['continentCode'] = "N/A";
+            $this->data['countryCode'] = "N/A";
+
+        }
+
     }
 
 

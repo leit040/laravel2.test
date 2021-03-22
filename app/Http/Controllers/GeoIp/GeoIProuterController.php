@@ -10,6 +10,7 @@ use App\Providers\GeoIpServiceProvider;
 use App\Service\GeoIpInterface;
 use App\Service\MaxMindGeoService;
 use App\Service\UserAgentInterface;
+use GeoIp2\Exception\AddressNotFoundException;
 
 class GeoIpRouterController extends Controller
 {
@@ -28,7 +29,9 @@ class GeoIpRouterController extends Controller
     public function route()
     {
 
-        $ip = request()->ip() != '192.168.10.11' ?: request()->server->get('HTTP_X_FORWARDED_FOR');
+        dd($ip = request()->ip());
+
+        $ip = request()->ip() != '192.168.10.1' ?: request()->server->get('HTTP_X_FORWARDED_FOR');
         $this->geoRoute->parse($ip);
         $this->agent->parse(request()->server->get('HTTP_USER_AGENT'));
 

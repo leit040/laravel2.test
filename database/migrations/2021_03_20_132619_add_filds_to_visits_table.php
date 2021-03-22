@@ -27,7 +27,7 @@ class AddFildsToVisitsTable extends Migration
     public function down()
     {
         Schema::table('visits', function (Blueprint $table) {
-            //
+            $table->dropColumn(['clientOs', 'clientBrowser']);
         });
     }
 }
