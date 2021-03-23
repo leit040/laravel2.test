@@ -7,10 +7,10 @@ namespace App\Http\Controllers\GeoIp;
 use App\Http\Controllers\Controller;
 use App\Models\Visit;
 use App\Providers\GeoIpServiceProvider;
-use App\Service\GeoIpInterface;
-use App\Service\MaxMindGeoService;
-use App\Service\UserAgentInterface;
 use GeoIp2\Exception\AddressNotFoundException;
+use Leit040\Geo\GeoIpInterface;
+use Leit040\Geo\UserAgentInterface;
+
 
 class GeoIpRouterController extends Controller
 {

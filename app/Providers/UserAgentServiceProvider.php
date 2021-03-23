@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Service\UserAgentGetBrowserService;
-use App\Service\UserAgentInterface;
+use Leit040\Geo\UserAgentGetBrowserService;
+use Leit040\Geo\UserAgentInterface;
 use Illuminate\Support\ServiceProvider;
 
 class UserAgentServiceProvider extends ServiceProvider
