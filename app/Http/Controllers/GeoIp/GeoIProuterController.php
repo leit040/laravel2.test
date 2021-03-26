@@ -5,14 +5,15 @@ namespace App\Http\Controllers\GeoIp;
 
 
 use App\Http\Controllers\Controller;
+use App\Jobs\addVisit;
 use App\Models\Visit;
-use App\Providers\GeoIpServiceProvider;
 use GeoIp2\Exception\AddressNotFoundException;
 use Leit040\Geo\GeoIpInterface;
 use Leit040\Geo\UserAgentInterface;
 
 
-class GeoIpRouterController extends Controller
+class GeoIProuterController extends Controller
+
 {
     protected $geoRoute;
     protected $agent;
@@ -28,8 +29,7 @@ class GeoIpRouterController extends Controller
 
     public function route()
     {
-
-
+        // addVisit::dispatch($this->geoRoute,$this->agent);
         $ip = request()->ip() != '192.168.10.11' ?: request()->server->get('HTTP_X_FORWARDED_FOR');
         $this->geoRoute->parse($ip);
         $this->agent->parse(request()->server->get('HTTP_USER_AGENT'));
@@ -42,10 +42,9 @@ class GeoIpRouterController extends Controller
             'clientBrowser' => $this->agent->clientBrowser(),
 
         ]);
-        //давайте считать что тут есть редирект на куда то в зависимости от того с какой страны оно приперлось...
-        return redirect()->route('post.index');
-
     }
+    //давайте считать что тут есть редирект на куда то в зависимости от того с какой страны оно приперлось...
+    // return redirect()->route('post.index');
 
 
 }

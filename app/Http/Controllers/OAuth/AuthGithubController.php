@@ -35,6 +35,7 @@ class AuthGithubController
 
         $userInfo = $response->json();
 
+
         $response = Http::withHeaders(['Authorization' => 'token ' . $data['access_token']])->get('https://api.github.com/user/emails');
         $userEmails = $response->json();
 
