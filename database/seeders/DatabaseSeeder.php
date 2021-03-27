@@ -11,6 +11,8 @@ use Leit040\Geo\UserAgentGetBrowserService;
 use Leit040\Geo\UserAgentInterface;
 use Faker\Factory;
 
+
+
 class DatabaseSeeder extends Seeder
 {
     /**

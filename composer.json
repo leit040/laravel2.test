@@ -55,7 +55,7 @@
         "laravel/ui": "^3.2",
         "leit040/geointerface": "^1.0.3",
         "leit040/ipapiadapter": "^1.0.3",
-        "leit040/maxmindadapter": "^1.0.3",
+        "leit040/maxmindadapter": "^1.0.4",
         "leit040/useragentinterface": "^1.0.1",
         "leit040/useragentadapter": "^1.0.0"
     },

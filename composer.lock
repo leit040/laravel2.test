@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1af54edc2435ca3f0c8e34514710f70",
+    "content-hash": "931f8255f7c8532f6b64e28b92e3bf20",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1641,16 +1641,16 @@
         },
         {
             "name": "leit040/maxmindadapter",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leit040/maxmaindadapter.git",
-                "reference": "642c69925633f10dd6ef01a189eb414bf87483b6"
+                "reference": "4eb913e3a9de8d6036344a68f6f56e211087f8ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leit040/maxmaindadapter/zipball/642c69925633f10dd6ef01a189eb414bf87483b6",
-                "reference": "642c69925633f10dd6ef01a189eb414bf87483b6",
+                "url": "https://api.github.com/repos/leit040/maxmaindadapter/zipball/4eb913e3a9de8d6036344a68f6f56e211087f8ac",
+                "reference": "4eb913e3a9de8d6036344a68f6f56e211087f8ac",
                 "shasum": ""
             },
             "require": {
@@ -1671,10 +1671,10 @@
                 "Maxmind"
             ],
             "support": {
-                "source": "https://github.com/leit040/maxmaindadapter/tree/v1.0.3",
+                "source": "https://github.com/leit040/maxmaindadapter/tree/v1.0.4",
                 "issues": "https://github.com/leit040/maxmaindadapter/issues"
             },
-            "time": "2021-03-22T23:10:12+00:00"
+            "time": "2021-03-27T16:26:11+00:00"
         },
         {
             "name": "leit040/useragentadapter",
