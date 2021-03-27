@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/auth/flickr/callback', \App\Http\Controllers\OAuth\AuthFlickrController::class)->name('flickr_callback');
 
 });
-Route::get('/geo', [\App\Http\Controllers\GeoIp\GeoIpRouterController::class, 'route']);
+Route::get('/geo', [\App\Http\Controllers\GeoIp\GeoIProuterController::class, 'route']);
 
 Route::middleware('auth')->group(function () {
     Route::get('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');

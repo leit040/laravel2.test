@@ -17,6 +17,8 @@ class GeoIpServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+
         $this->app->singleton(GeoIpInterface::class, function () {
             return new MaxMindGeoService();
 
