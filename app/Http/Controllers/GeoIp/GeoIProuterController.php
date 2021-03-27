@@ -34,7 +34,7 @@ class GeoIProuterController extends Controller
         $queue = new AddVisit($this->agent);
         $queue->onQueue('parsing')->dispatch($this->agent);
 
-        // return redirect()->route('post.index');
+        return redirect()->route('post.index');
 
 
         /*  $ip = request()->ip() != '192.168.10.11' ?: request()->server->get('HTTP_X_FORWARDED_FOR');
