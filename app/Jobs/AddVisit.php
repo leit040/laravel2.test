@@ -4,15 +4,13 @@ namespace App\Jobs;
 
 use App\Models\Visit;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Leit040\Geo\GeoIpInterface;
-use Leit040\Geo\MaxMindGeoService;
 use Leit040\Geo\UserAgentInterface;
-use phpDocumentor\Reflection\Types\Null_;
+
 
 class AddVisit implements ShouldQueue
 {
@@ -23,15 +21,15 @@ class AddVisit implements ShouldQueue
      *
      * @return void
      */
-    protected UserAgentInterface $agent;
-    public $ip;
-    public $userAgent;
+    private $ip;
+    private $userAgent;
 
 
-    public function __construct(UserAgentInterface $agent, $ip = null, $userAgent = null)
+    public function __construct($ip = null, $userAgent = null)
     {
+
+
         $this->onQueue('parsing');
-        $this->agent = $agent;
         if ($ip != null) {
             $this->ip = $ip;
         } else {
@@ -43,24 +41,28 @@ class AddVisit implements ShouldQueue
 
             $this->userAgent = request()->server->get('HTTP_USER_AGENT');
         }
+
+
     }
 
     /**
      * Execute the job.
      *
+     * @param GeoIpInterface $geoService
+     * @param UserAgentInterface $agent
      * @return void
      */
-    public function handle()
+    public function handle(GeoIpInterface $geoService, UserAgentInterface $agent)
     {
 
-        $geoRoute = new MaxMindGeoService();
-        $geoRoute->parse($this->ip);
-        $this->agent->parse($this->userAgent);
+
+        $geoService->parse($this->ip);
+        $agent->parse($this->userAgent);
 
         Visit::create([
             'ip' => $this->ip,
-            'continent_code' => $geoRoute->continentCode(),
-            'country_code' => $geoRoute->countryCode(),
+            'continent_code' => $geoService->continentCode(),
+            'country_code' => $geoService->countryCode(),
             'clientOs' => $this->agent->clientOs(),
             'clientBrowser' => $this->agent->clientBrowser(),
 
